@@ -1,4 +1,4 @@
-package org.example.hotelapi2.security;
+package org.example.repasobiblioapi.security;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;

@@ -1,7 +1,8 @@
-package org.example.hotelapi2.services;
+package org.example.repasobiblioapi.service;
 
-import org.example.hotelapi2.model.User;
-import org.example.hotelapi2.repository.UserRepository;
+
+import org.example.repasobiblioapi.model.User;
+import org.example.repasobiblioapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

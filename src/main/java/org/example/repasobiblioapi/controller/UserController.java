@@ -1,16 +1,13 @@
-package org.example.hotelapi2.controllers;
+package org.example.repasobiblioapi.controller;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.example.hotelapi2.model.Hotel;
-import org.example.hotelapi2.model.User;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.example.hotelapi2.services.UserService;
+import org.example.repasobiblioapi.model.User;
+import org.example.repasobiblioapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,9 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {

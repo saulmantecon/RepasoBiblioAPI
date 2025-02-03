@@ -1,7 +1,6 @@
-package org.example.hotelapi2.repository;
+package org.example.repasobiblioapi.repository;
 
-import org.example.hotelapi2.model.Hotel;
-import org.example.hotelapi2.model.User;
+import org.example.repasobiblioapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

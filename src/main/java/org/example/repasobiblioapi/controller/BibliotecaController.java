@@ -6,72 +6,66 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.repasobiblioapi.model.Biblioteca;
-import org.example.repasobiblioapi.model.Libro;
 import org.example.repasobiblioapi.service.BibliotecaService;
-import org.example.repasobiblioapi.service.LibroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/libro")
-@Tag(name = "libros", description = "API de libros")
-public class LibroController {
+@RequestMapping("api/biblioteca")
+@Tag(name = "Bibliotecas", description = "Api de bibliotecas")
+public class BibliotecaController {
+    private final BibliotecaService bibliotecaService;
 
-    private final LibroService libroService;
-
-    public LibroController(LibroService libroService) {
-        this.libroService = libroService;
+    public BibliotecaController(BibliotecaService bibliotecaService) {
+        this.bibliotecaService = bibliotecaService;
     }
 
-    // ✅ Guardar un nuevo libro
-    @PostMapping("/save")
-    @Operation(summary = "Guardar un nuevo libro", description = "Guarda un nuevo libro en la base de datos")
-    public ResponseEntity<Void> saveLibro(@RequestBody Libro libro) {
+    @PostMapping("saveBiblioteca")
+    @Operation(summary = "Guardar una nueva biblioteca",
+            description = "Guarda una nueva biblioteca en la base de datos")
+    public void saveBiblioteca(@RequestBody Biblioteca biblioteca) {
         try {
-            libroService.saveLibro(libro);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
+            bibliotecaService.saveBiblioteca(biblioteca);
+        }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
+    }//saveBiblioteca
 
-    // ✅ Eliminar un libro por ID
-    @DeleteMapping("/delete/{id}")
-    @Operation(summary = "Eliminar un libro", description = "Eliminar un libro de la base de datos")
-    public ResponseEntity<Void> deleteLibro(@PathVariable int id) {
+    @GetMapping("bibliotecaPorCategoria/{categoria}")
+    @Operation(summary = "Buscar biblioteca por categoria",
+            description = "Busca una biblioteca en la base de datos por su categoria")
+    public Optional<Biblioteca> getBibliotecaPorCategoria(@PathVariable String categoria) {
         try {
-            libroService.deleteLibro(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
+            return bibliotecaService.findByCategoria(categoria);
+        }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
+    }//getBibliotecaPorCategoria
 
-    // ✅ Marcar un libro como prestado
-    @PutMapping("/{id}/prestar")
-    @Operation(summary = "Marcar un libro como prestado", description = "Cambia la variable de prestado a true")
-    public ResponseEntity<Void> cambiarLibroAPrestado(@PathVariable Long id) {
+    @GetMapping("bibliotecaPorLocalidad/{localidad}")
+    @Operation(summary = "Buscar biblioteca por Localidad",
+            description = "Busca una biblioteca en la base de datos por su Localidad")
+    public Optional<Biblioteca> getBibliotecaPorLocalidad(@PathVariable String localidad) {
         try {
-            libroService.libroPrestado(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
+            return bibliotecaService.findByLocalidad(localidad);
+        }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
+    }//getBibliotecaPorCategoria
 
-    // ✅ Buscar libros por biblioteca y género
-    @GetMapping("/buscarLibros")
-    @Operation(summary = "Buscar libros por biblioteca y género", description = "Busca libros en la base de datos")
-    public ResponseEntity<List<Libro>> buscarLibrosPorXCosas(
-            @RequestParam Long idBiblioteca,
-            @RequestParam String genero) {
+    @GetMapping("bibliotecaPorAutor/{autor}")
+    @Operation(summary = "Buscar biblioteca por autor",
+            description = "Busca una  o mas bibliotecas en la base de datos por su autor y que en esa biblio tengan un libro de ese autor")
+    public List<Biblioteca> bibliotecaPorAutor(@PathVariable String autor) {
         try {
-            List<Libro> libros = libroService.findByBibliotecaAndAutor(idBiblioteca, genero);
-            return ResponseEntity.ok(libros);
-        } catch (Exception e) {
+            return bibliotecaService.listarBibliotecasQueTenganUnLibroDeUnAutor(autor);
+        }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
+    }//getbibliotecaPorAutor
 }

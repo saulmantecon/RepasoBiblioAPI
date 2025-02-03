@@ -1,4 +1,4 @@
-package org.example.hotelapi2.model;
+package org.example.repasobiblioapi.model;
 
 import jakarta.persistence.*;
 
